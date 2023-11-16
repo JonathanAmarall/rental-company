@@ -1,0 +1,33 @@
+name: My.Collection.Api
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restaurar dependencias
+        run: dotnet restore
+      - name: Build do projeto
+        run: dotnet build --no-restore
+      - name: Realizando testes unitarios
+        run: dotnet test --no-build --verbosity normal
+      - name: Build da imagem Docker
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api -f src/services/MyCollection.Api/Dockerfile .
+      - name: Logando em Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Enviado imagem para Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api
