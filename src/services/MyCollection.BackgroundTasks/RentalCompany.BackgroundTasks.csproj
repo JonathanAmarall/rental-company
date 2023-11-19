@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
+    <ProjectReference Include="..\..\building blocks\MyCollection.Core\RentalCompany.Core.csproj" />
     <ProjectReference Include="..\MyCollection.Application\MyCollection.Application.csproj" />
   </ItemGroup>
 </Project>

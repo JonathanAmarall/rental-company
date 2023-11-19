@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyCollection.Data\MyCollection.Data.csproj" />
-    <ProjectReference Include="..\MyCollection.BackgroundTasks\MyCollection.BackgroundTasks.csproj" />
-    <ProjectReference Include="..\..\building blocks\MyCollection.MessageBus\MyCollection.MessageBus.csproj" />
+    <ProjectReference Include="..\MyCollection.Data\RentalCompany.Data.csproj" />
+    <ProjectReference Include="..\MyCollection.BackgroundTasks\RentalCompany.BackgroundTasks.csproj" />
+    <ProjectReference Include="..\..\building blocks\MyCollection.MessageBus\RentalCompany.MessageBus.csproj" />
   </ItemGroup>
 </Project>

@@ -29,8 +29,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\services\MyCollection.Api\MyCollection.Api.csproj" />
-	  <ProjectReference Include="..\..\src\services\MyCollection.Data\MyCollection.Data.csproj" />
+	  <ProjectReference Include="..\..\src\services\MyCollection.Api\RentalCompany.Api.csproj" />
+	  <ProjectReference Include="..\..\src\services\MyCollection.Data\RentalCompany.Data.csproj" />
 	</ItemGroup>
 
 </Project>
