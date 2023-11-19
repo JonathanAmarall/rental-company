@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -18,9 +18,9 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
+  displayName: 'Restore solution'
   inputs:
     restoreSolution: '$(solution)'
-  displayName: 'Restore solution'
 
 - task: VSBuild@1
   inputs:
