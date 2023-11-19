@@ -19,7 +19,7 @@
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 	</ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
+    <ProjectReference Include="..\MyCollection.Domain\RentalCompany.Domain.csproj" />
   </ItemGroup>
 
 </Project>
