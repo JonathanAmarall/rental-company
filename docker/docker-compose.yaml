@@ -1,21 +1,21 @@
 version: '3.8'
 services:
   frontend:
-    image: jonathan31amaral/mycollection-frontend
+    image: jonathan31amaral/RentalCompany-frontend
     ports:
       - "4200:80"
     networks:
-      - mycollection-network
+      - RentalCompany-network
 
   backend:
-    image: jonathan31amaral/mycollection-api
+    image: jonathan31amaral/RentalCompany-api
     ports:
       - "5099:80"
     restart: always
     networks:
-      - mycollection-network
+      - RentalCompany-network
     environment:
-      DB_CONNECTION_STRING: "Host=database;Port=5432;Database=MyCollectionDb;Username=postgres;Password=postgrespw"
+      DB_CONNECTION_STRING: "Host=database;Port=5432;Database=RentalCompanyDb;Username=postgres;Password=postgrespw"
 
   database:
     image: postgres:14
@@ -25,10 +25,10 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgrespw"
-      POSTGRES_DB: "MyCollectionDb"
+      POSTGRES_DB: "RentalCompanyDb"
     networks:
-      - mycollection-network
+      - RentalCompany-network
 
 networks:
-  mycollection-network:
+  RentalCompany-network:
     driver: bridge

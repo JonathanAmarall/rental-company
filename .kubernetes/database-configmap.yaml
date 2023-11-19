@@ -5,4 +5,4 @@ metadata:
 data:
   POSTGRES_USER: "postgres"
   POSTGRES_PASSWORD: "postgrespw"
-  POSTGRES_DB: "MyCollectionDb"
+  POSTGRES_DB: "RentalCompanyDb"

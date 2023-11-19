@@ -23,11 +23,11 @@ jobs:
       - name: Realizando testes unitarios
         run: dotnet test --no-build --verbosity normal
       - name: Build da imagem Docker
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api -f src/services/MyCollection.Api/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/RentalCompany-api -f src/services/RentalCompany.Api/Dockerfile .
       - name: Logando em Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Enviado imagem para Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/RentalCompany-api

@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mycollection-api
+  name: RentalCompany-api
   labels:
-    app: mycollection-api
+    app: RentalCompany-api
 spec:
   containers:
-    - name: mycollection-api
-      image: jonathan31amaral/mycollection-api
+    - name: RentalCompany-api
+      image: jonathan31amaral/RentalCompany-api
       ports:
         - containerPort: 80
       env:
       - name: DB_CONNECTION_STRING
-        value: "Host=svc-database;Port=5432;Database=MyCollectionDb;Username=postgres;Password=postgrespw"
+        value: "Host=svc-database;Port=5432;Database=RentalCompanyDb;Username=postgres;Password=postgrespw"
     

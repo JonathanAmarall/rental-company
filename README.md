@@ -1,4 +1,4 @@
-# Projeto MyCollection
+# Projeto RentalCompany
 
 Este projeto foi criado com base em um desafio, onde é possível gerenciar a coleção de Livros, DVDs e CDs.
 

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: mycollection-api-replicaset
+  name: RentalCompany-api-replicaset
 spec:
   template: 
     metadata:
-      name: mycollection-api
+      name: RentalCompany-api
       labels:
-        app: mycollection-api
+        app: RentalCompany-api
     spec:
       containers:
-        - name: mycollection-api-container
-          image: jonathan31amaral/mycollection-api
+        - name: RentalCompany-api-container
+          image: jonathan31amaral/RentalCompany-api
           ports:
             - containerPort: 80
   replicas: 3
   selector:
     matchLabels:
-      app: mycollection-api
+      app: RentalCompany-api
