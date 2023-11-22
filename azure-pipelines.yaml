@@ -30,3 +30,34 @@ steps:
     CollectCoverage: true
     CoverletOutputFormat: opencover,cobertura
     
+
+- task: CopyFiles@2
+  displayName: Save Unit Tests Results
+  inputs:
+    SourceFolder: $(Agent.TempDirectory)
+    TargetFolder: $(Agent.BuildDirectory)/TestResults
+    OverWrite: true
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results *.trx
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '*.trx'
+    searchFolder: $(Agent.BuildDirectory)/TestResults
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: rental-company-tests
+
+- task: reportgenerator@5
+  displayName: Generate Code Coverage Reports
+  inputs:
+    reports: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
+    targetdir: $(Build.SourcesDirectory)/CodeCoverage
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
+    pathToSources: $(Build.SourcesDirectory)
