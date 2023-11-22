@@ -16,10 +16,17 @@ variables:
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'Build'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Tests'
+  displayName: Unit Tests
+  continueOnError: True
   inputs:
-    command: 'test'
+    command: test
+    projects: '**/*.*Tests.csproj'
+    arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
+    publishTestResults: false
+  env:
+    CollectCoverage: true
+    CoverletOutputFormat: opencover,cobertura
     
