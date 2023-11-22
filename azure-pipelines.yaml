@@ -14,50 +14,65 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build'
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'Build'
 
-- task: DotNetCoreCLI@2
-  displayName: Unit Tests
-  continueOnError: True
-  inputs:
-    command: test
-    projects: '**/*.*Tests.csproj'
-    arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
-    publishTestResults: false
-  env:
-    CollectCoverage: true
-    CoverletOutputFormat: opencover,cobertura
-    
+  - task: DotNetCoreCLI@2
+    displayName: Unit Tests
+    continueOnError: True
+    inputs:
+      command: test
+      projects: '**/*.*Tests.csproj'
+      arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
+      publishTestResults: false
+    env:
+      CollectCoverage: true
+      CoverletOutputFormat: opencover,cobertura
+      
 
-- task: CopyFiles@2
-  displayName: Save Unit Tests Results
-  inputs:
-    SourceFolder: $(Agent.TempDirectory)
-    TargetFolder: $(Agent.BuildDirectory)/TestResults
-    OverWrite: true
+  - task: CopyFiles@2
+    displayName: Save Unit Tests Results
+    inputs:
+      SourceFolder: $(Agent.TempDirectory)
+      TargetFolder: $(Agent.BuildDirectory)/TestResults
+      OverWrite: true
 
-- task: PublishTestResults@2
-  displayName: Publish Test Results *.trx
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '*.trx'
-    searchFolder: $(Agent.BuildDirectory)/TestResults
-    mergeTestResults: true
-    failTaskOnFailedTests: true
-    testRunTitle: rental-company-tests
+  - task: PublishTestResults@2
+    displayName: Publish Test Results *.trx
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '*.trx'
+      searchFolder: $(Agent.BuildDirectory)/TestResults
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: rental-company-tests
 
-- task: reportgenerator@5
-  displayName: Generate Code Coverage Reports
-  inputs:
-    reports: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
-    targetdir: $(Build.SourcesDirectory)/CodeCoverage
+  - task: reportgenerator@5
+    displayName: Generate Code Coverage Reports
+    inputs:
+      reports: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
+      targetdir: $(Build.SourcesDirectory)/CodeCoverage
 
-- task: PublishCodeCoverageResults@1
-  displayName: Publish code coverage
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
-    pathToSources: $(Build.SourcesDirectory)
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish code coverage
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml
+      reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
+      pathToSources: $(Build.SourcesDirectory)
+
+# - task: BuildQualityChecks@8
+#   displayName: 'Check Build Quality'
+#   inputs:
+#     checkWarnings: $(BuildQualityChecks.CheckWarnings)
+#     warningThreshold: $(BuildQualityChecks.WarningThreshold)
+#     showStatistics: true
+#     warningTaskFilters: '/^Build$/'
+#     warningFailOption: fixed
+#     checkCoverage: $(BuildQualityChecks.CheckCoverage)
+#     coverageFailOption: fixed
+#     coverageType: lines
+#     coverageThreshold: $(BuildQualityChecks.CoverageThreshodld)
+#     coverageUpperThreshold: 100
