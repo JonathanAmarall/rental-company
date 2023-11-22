@@ -14,10 +14,24 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-
 steps:
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: 'Build'
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: '**/*.csproj'
+      arguments: '--configuration Release --no-restore'
+
+  - task: DotNetCoreCLI@2
+    displayName: Publish
+    inputs:
+      command: publish
+      arguments: '--configuration Release --no-restore --no-build --output $(Build.StagingDirectory)/publish-artifacts'
+      zipAfterPublish: false
+      modifyOutputPath: false
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+
+  - publish:  $(Build.StagingDirectory)/publish-artifacts
+    artifact: publish-artifacts
 
   - task: DotNetCoreCLI@2
     displayName: Unit Tests
