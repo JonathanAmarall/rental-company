@@ -16,12 +16,20 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-  - task: DotNetCoreCLI@2
+stages:
+  - stage: Build
     displayName: Build
-    inputs:
-      projects: '**/*.csproj'
-      arguments: '--configuration Release --no-restore'
+    jobs:
+    - job: Build
+      displayName: 'Build Job'
+      steps:
+      - task: UseDotNet@2
+        inputs:
+          projects: '**/*.csproj'
+          arguments: '--configuration Release --no-restore'
+          packageType: 'sdk'
+          version: '7.x'
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: DotNetCoreCLI@2
     displayName: Publish
