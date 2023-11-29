@@ -9,9 +9,9 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddMemoryCache();
         services.AddHostedService<Worker>();
         services
-        .AddData(hostContext.Configuration)
-        .AddBackgroundTasks(hostContext.Configuration)
-        .AddMessageBus(hostContext.Configuration);
+            .AddData(hostContext.Configuration)
+            .AddBackgroundTasks(hostContext.Configuration)
+            .AddMessageBus(hostContext.Configuration);
     })
     .Build();
 

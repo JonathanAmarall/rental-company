@@ -4,7 +4,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -44,7 +46,6 @@ steps:
     env:
       CollectCoverage: true
       CoverletOutputFormat: opencover,cobertura
-      
 
   - task: CopyFiles@2
     displayName: Save Unit Tests Results
