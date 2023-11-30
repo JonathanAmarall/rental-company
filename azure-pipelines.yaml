@@ -45,28 +45,7 @@ stages:
     - script: dotnet test --configuration $(buildConfiguration) --collect:"XPlat Code Coverage"
       displayName: 'Run Tests with Code Coverage'
       continueOnError: true
-
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'VSTest'
-        testResultsFiles: '**/*.trx'
-        searchFolder: '$(System.DefaultWorkingDirectory)/<path-to-your-test-projects>'
-
-- stage: Publish
-  displayName: 'Publish Stage'
-  jobs:
-  - job: Publish
-    displayName: 'Publish Job'
-    steps:
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '7.x'
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-
-    - script: dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/app
-      displayName: 'Publish Artifacts'
-
+      
     - task: PublishBuildArtifacts@1
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)/app'
@@ -85,7 +64,7 @@ stages:
     - task: reportgenerator@5
       displayName: Generate Code Coverage Reports
       inputs:
-        reports: $(Agent.TempDirectory)/**/coverage.cobertura.xml
+        reports: $(Agent.TempDirectory)/**/Cobertura.xml
         targetdir: $(Build.SourcesDirectory)/CodeCoverage
 
     - task: PublishCodeCoverageResults@1
