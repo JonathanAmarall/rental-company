@@ -99,13 +99,13 @@ stages:
     - task: BuildQualityChecks@9
       displayName: 'Check Build Quality'
       inputs:
-        checkWarnings: $(BuildQualityChecks.CheckWarnings)
-        warningThreshold: $(BuildQualityChecks.WarningThreshold)
+        checkWarnings: false
+        warningThreshold: 3
         showStatistics: true
         warningTaskFilters: '/^Build$/'
         warningFailOption: fixed
-        checkCoverage: $(BuildQualityChecks.CheckCoverage)
+        checkCoverage: true
         coverageFailOption: fixed
         coverageType: lines
-        coverageThreshold: $(BuildQualityChecks.CoverageThreshodld)
+        coverageThreshold: 70
         coverageUpperThreshold: 100
