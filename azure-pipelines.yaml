@@ -96,16 +96,16 @@ stages:
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
-# - task: BuildQualityChecks@8
-#   displayName: 'Check Build Quality'
-#   inputs:
-#     checkWarnings: $(BuildQualityChecks.CheckWarnings)
-#     warningThreshold: $(BuildQualityChecks.WarningThreshold)
-#     showStatistics: true
-#     warningTaskFilters: '/^Build$/'
-#     warningFailOption: fixed
-#     checkCoverage: $(BuildQualityChecks.CheckCoverage)
-#     coverageFailOption: fixed
-#     coverageType: lines
-#     coverageThreshold: $(BuildQualityChecks.CoverageThreshodld)
-#     coverageUpperThreshold: 100
+    - task: BuildQualityChecks@8
+      displayName: 'Check Build Quality'
+      inputs:
+        checkWarnings: $(BuildQualityChecks.CheckWarnings)
+        warningThreshold: $(BuildQualityChecks.WarningThreshold)
+        showStatistics: true
+        warningTaskFilters: '/^Build$/'
+        warningFailOption: fixed
+        checkCoverage: $(BuildQualityChecks.CheckCoverage)
+        coverageFailOption: fixed
+        coverageType: lines
+        coverageThreshold: $(BuildQualityChecks.CoverageThreshodld)
+        coverageUpperThreshold: 100
