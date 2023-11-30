@@ -14,6 +14,8 @@ variables:
 stages:
 - stage: Build
   displayName: 'Build Stage'
+  variables:
+    disable.coverage.autogenerate: true
   jobs:
   - job: Build
     displayName: 'Build Job'
@@ -27,7 +29,7 @@ stages:
     - script: dotnet restore
       displayName: 'Restore NuGet Packages'
 
-    - script: dotnet build --configuration $(buildConfiguration)
+    - script: dotnet build --configuration $(buildConfiguration) --no-restore
       displayName: 'Build Solution'
 
     - task: UseDotNet@2
@@ -46,6 +48,37 @@ stages:
         artifactName: 'drop'
         publishLocation: 'Container'
 
+    - task: DotNetCoreCLI@2
+      displayName: Publish
+      inputs:
+        command: publish
+        arguments: '--configuration Release --no-restore --no-build --output $(Build.StagingDirectory)/publish-artifacts'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        pathToPublish: $(Build.ArtifactStagingDirectory)
+
+
+# Unit Tests
+    - task: DotNetCoreCLI@2
+      displayName: Unit Tests
+      continueOnError: True
+      inputs:
+        command: test
+        projects: '**/*.*.Tests.csproj'
+        arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
+        publishTestResults: false
+      env:
+        CollectCoverage: true
+        CoverletOutputFormat: opencover,cobertura
+
+
+    - task: CopyFiles@2
+      displayName: Save Unit Tests Results
+      inputs:
+        SourceFolder: $(Agent.TempDirectory)
+        TargetFolder: $(Agent.BuildDirectory)/TestResults
+        OverWrite: true
+
     - task: PublishTestResults@2
       displayName: Publish Test Results *.trx
       inputs:
@@ -54,18 +87,18 @@ stages:
         searchFolder: $(Agent.BuildDirectory)/TestResults
         mergeTestResults: true
         failTaskOnFailedTests: true
-        testRunTitle: rental-company-tests
+
     - task: reportgenerator@5
       displayName: Generate Code Coverage Reports
       inputs:
-        reports: $(Agent.TempDirectory)/**/coverage.cobertura.xml
+        reports: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
         targetdir: $(Build.SourcesDirectory)/CodeCoverage
 
     - task: PublishCodeCoverageResults@1
       displayName: Publish code coverage
       inputs:
         codeCoverageTool: Cobertura
-        summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/coverage.cobertura.xml
+        summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
