@@ -96,7 +96,7 @@ stages:
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
-    - task: BuildQualityChecks@8
+    - task: BuildQualityChecks@9
       displayName: 'Check Build Quality'
       inputs:
         checkWarnings: $(BuildQualityChecks.CheckWarnings)
