@@ -56,10 +56,10 @@ stages:
 
 # Unit Tests
 
-- stage: Unit Tests
+- stage: UnitTests
   displayName: 'Unit Tests'
   jobs:
-  - job: Tests
+  - job: UnitTests
     steps:
     - task: DotNetCoreCLI@2
       displayName: Unit Tests
@@ -90,7 +90,7 @@ stages:
         mergeTestResults: true
         failTaskOnFailedTests: true
 
-- stage: Save tests report
+- stage: SaveTestsReport
   displayName: 'Save tests report'
   jobs:
   - job: SaveTestReport
