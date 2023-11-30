@@ -50,11 +50,17 @@ stages:
         zipAfterPublish: false
         modifyOutputPath: false
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        
+
     - publish:  $(Build.StagingDirectory)/publish-artifacts
       artifact: publish-artifacts
 
 # Unit Tests
+
+- stage: Unit Tests
+  displayName: 'Unit Tests'
+  jobs:
+  - job: Tests
+    steps:
     - task: DotNetCoreCLI@2
       displayName: Unit Tests
       continueOnError: True
@@ -84,6 +90,11 @@ stages:
         mergeTestResults: true
         failTaskOnFailedTests: true
 
+- stage: Save tests report
+  displayName: 'Save tests report'
+  jobs:
+  - job: SaveTestReport
+    steps:
     - task: reportgenerator@5
       displayName: Generate Code Coverage Reports
       inputs:
