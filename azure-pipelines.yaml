@@ -41,12 +41,6 @@ stages:
     - script: dotnet test --configuration $(buildConfiguration) --collect:"XPlat Code Coverage"
       displayName: 'Run Tests with Code Coverage'
       continueOnError: true
-      
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)/app'
-        artifactName: 'drop'
-        publishLocation: 'Container'
 
     - task: DotNetCoreCLI@2
       displayName: Publish
@@ -56,7 +50,9 @@ stages:
         zipAfterPublish: false
         modifyOutputPath: false
         pathToPublish: $(Build.ArtifactStagingDirectory)
-
+        
+    - publish:  $(Build.StagingDirectory)/publish-artifacts
+      artifact: publish-artifacts
 
 # Unit Tests
     - task: DotNetCoreCLI@2
