@@ -13,7 +13,7 @@ variables:
 
 stages:
 - stage: Build
-  displayName: 'Build Stage'
+  displayName: 'Build And Restore'
   variables:
     disable.coverage.autogenerate: true
   jobs:
@@ -32,6 +32,14 @@ stages:
     - script: dotnet build --configuration $(buildConfiguration) --no-restore
       displayName: 'Build Solution'
 
+
+# Unit Tests
+
+- stage: UnitTests
+  displayName: 'Unit Tests'
+  jobs:
+  - job: UnitTests
+    steps:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -53,14 +61,6 @@ stages:
 
     - publish:  $(Build.StagingDirectory)/publish-artifacts
       artifact: publish-artifacts
-
-# Unit Tests
-
-- stage: UnitTests
-  displayName: 'Unit Tests'
-  jobs:
-  - job: UnitTests
-    steps:
     - task: DotNetCoreCLI@2
       displayName: Unit Tests
       continueOnError: True
