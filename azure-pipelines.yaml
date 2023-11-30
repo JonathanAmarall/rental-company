@@ -30,12 +30,6 @@ stages:
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: 'Build Solution'
 
-- stage: Test
-  displayName: 'Test Stage'
-  jobs:
-  - job: Test
-    displayName: 'Test Job'
-    steps:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -64,14 +58,14 @@ stages:
     - task: reportgenerator@5
       displayName: Generate Code Coverage Reports
       inputs:
-        reports: $(Agent.TempDirectory)/**/Cobertura.xml
+        reports: $(Agent.TempDirectory)/**/coverage.cobertura.xml
         targetdir: $(Build.SourcesDirectory)/CodeCoverage
 
     - task: PublishCodeCoverageResults@1
       displayName: Publish code coverage
       inputs:
         codeCoverageTool: Cobertura
-        summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml
+        summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/coverage.cobertura.xml
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
