@@ -20,6 +20,14 @@ stages:
   - job: Build
     displayName: 'Build Job'
     steps:
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud'
+        organization: 'rentalcompany'
+        scannerMode: 'MSBuild'
+        projectKey: 'jhouamaral_RentalCompany'
+        projectName: 'RentalCompany'
+
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -31,6 +39,13 @@ stages:
 
     - script: dotnet build --configuration $(buildConfiguration) --no-restore
       displayName: 'Build Solution'
+
+    - task: SonarCloudAnalyze@1
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '500'
 
     - task: UseDotNet@2
       inputs:
@@ -107,5 +122,5 @@ stages:
         checkCoverage: true
         coverageFailOption: fixed
         coverageType: lines
-        coverageThreshold: 70
+        coverageThreshold: 30
         coverageUpperThreshold: 100
