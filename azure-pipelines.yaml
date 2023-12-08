@@ -40,12 +40,6 @@ stages:
     - script: dotnet build --configuration $(buildConfiguration) --no-restore
       displayName: 'Build Solution'
 
-    - task: SonarCloudAnalyze@1
-      inputs:
-        jdkversion: 'JAVA_HOME_17_X64'
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '500'
 
     - task: UseDotNet@2
       inputs:
@@ -111,6 +105,13 @@ stages:
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
+    - task: SonarCloudAnalyze@1
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '500'
+        
     - task: BuildQualityChecks@9
       displayName: 'Check Build Quality'
       inputs:
