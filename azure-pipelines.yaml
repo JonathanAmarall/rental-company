@@ -108,11 +108,11 @@ stages:
 
 - stage: BuildDockerImage
   jobs:
-    - job:
-      displayName: 'BuildDockerImage'
-      steps:
-        - task: Docker@2
-          inputs:
-            command: 'build'
-            Dockerfile: 'docker/Dockerfile'
-- 
+  - job:
+    displayName: 'BuildDockerImage'
+    steps:
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: 'docker/Dockerfile'
+
