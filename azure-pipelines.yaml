@@ -105,3 +105,14 @@ stages:
         coverageType: lines
         coverageThreshold: 30
         coverageUpperThreshold: 100
+
+- stage: BuildDockerImage
+  jobs:
+    - job:
+      displayName: 'BuildDockerImage'
+      steps:
+        - task: Docker@2 
+          inputs:
+            command: 'buildAndPush'
+            Dockerfile: '**/Dockerfile'
+- 
