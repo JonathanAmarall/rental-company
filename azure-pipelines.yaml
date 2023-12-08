@@ -39,25 +39,16 @@ stages:
 
     - script: dotnet build --configuration $(buildConfiguration) --no-restore
       displayName: 'Build Solution'
-
     - task: SonarCloudAnalyze@1
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '500'
-        
-    - task: DotNetCoreCLI@2
-      displayName: Unit Tests
-      continueOnError: True
-      inputs:
-        command: test
-        projects: '**/*.*.Tests.csproj'
-        arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
-        publishTestResults: false
-      env:
-        CollectCoverage: true
-        CoverletOutputFormat: opencover,cobertura
+
+    - script: dotnet test --configuration $(buildConfiguration) --collect:"XPlat Code Coverage"
+      displayName: 'Run Tests with Code Coverage'
+      continueOnError: true
 
     - task: DotNetCoreCLI@2
       displayName: Publish
