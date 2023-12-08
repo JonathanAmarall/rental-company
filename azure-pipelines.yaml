@@ -46,11 +46,6 @@ stages:
         packageType: 'sdk'
         version: '7.x'
         installationPath: $(Agent.ToolsDirectory)/dotnet
-
-    - script: dotnet test --configuration $(buildConfiguration) --collect:"XPlat Code Coverage"
-      displayName: 'Run Tests with Code Coverage'
-      continueOnError: true
-
     - task: DotNetCoreCLI@2
       displayName: Publish
       inputs:
@@ -74,7 +69,14 @@ stages:
       env:
         CollectCoverage: true
         CoverletOutputFormat: opencover,cobertura
-
+        
+    - task: SonarCloudAnalyze@1
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '500'
+        
     - task: CopyFiles@2
       displayName: Save Unit Tests Results
       inputs:
@@ -105,13 +107,6 @@ stages:
         reportDirectory: $(Build.SourcesDirectory)/CodeCoverage
         pathToSources: $(Build.SourcesDirectory)
 
-    - task: SonarCloudAnalyze@1
-      inputs:
-        jdkversion: 'JAVA_HOME_17_X64'
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '500'
-        
     - task: BuildQualityChecks@9
       displayName: 'Check Build Quality'
       inputs:
