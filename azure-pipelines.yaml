@@ -46,6 +46,11 @@ stages:
         packageType: 'sdk'
         version: '7.x'
         installationPath: $(Agent.ToolsDirectory)/dotnet
+        
+    - script: dotnet test --configuration $(buildConfiguration) --collect:"XPlat Code Coverage"
+      displayName: 'Run Tests with Code Coverage'
+      continueOnError: true
+
     - task: DotNetCoreCLI@2
       displayName: Publish
       inputs:
@@ -58,17 +63,17 @@ stages:
     - publish:  $(Build.StagingDirectory)/publish-artifacts
       artifact: publish-artifacts
 
-    - task: DotNetCoreCLI@2
-      displayName: Unit Tests
-      continueOnError: True
-      inputs:
-        command: test
-        projects: '**/*.*.Tests.csproj'
-        arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
-        publishTestResults: false
-      env:
-        CollectCoverage: true
-        CoverletOutputFormat: opencover,cobertura
+    # - task: DotNetCoreCLI@2
+    #   displayName: Unit Tests
+    #   continueOnError: True
+    #   inputs:
+    #     command: test
+    #     projects: '**/*.*.Tests.csproj'
+    #     arguments: /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:Exclude="[xunit*]*" --no-build --configuration Release --logger trx --results-directory $(Agent.TempDirectory)
+    #     publishTestResults: false
+    #   env:
+    #     CollectCoverage: true
+    #     CoverletOutputFormat: opencover,cobertura
         
     - task: SonarCloudAnalyze@1
       inputs:
