@@ -24,7 +24,7 @@ namespace RentalCompany.Core.Helpers
 
         private NamingStrategy GetControllerCustomSerializationAttributeOption()
         {
-            return (NamingStrategy)_httpContextAccessor.HttpContext.Items[BaseJsonFormatterAttribute.GetKey] ??
+            return (NamingStrategy)_httpContextAccessor.HttpContext!.Items[BaseJsonFormatterAttribute.GetKey]! ??
                    _defaultNamingStrategy;
         }
         public abstract class BaseJsonFormatterAttribute : Attribute, IFilterMetadata
