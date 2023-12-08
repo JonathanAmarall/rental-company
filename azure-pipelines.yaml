@@ -111,8 +111,8 @@ stages:
     - job:
       displayName: 'BuildDockerImage'
       steps:
-        - task: Docker@2 
+        - task: Docker@2
           inputs:
-            command: 'buildAndPush'
-            Dockerfile: '**/Dockerfile'
+            command: 'build'
+            Dockerfile: 'docker/Dockerfile'
 - 
