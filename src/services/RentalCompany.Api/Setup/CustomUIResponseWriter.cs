@@ -32,7 +32,7 @@ namespace RentalCompany.Api.Setup
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             var logger = loggerFactory.CreateLogger<HealthStatus>();
-            logger.LogInformation("Status {0}\nResponse{1}", status, result);
+            logger.LogInformation("Status {status}\nResponse{result}", status, result);
         }
     }
 }

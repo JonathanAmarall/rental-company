@@ -15,7 +15,7 @@ namespace RentalCompany.Api.Controllers
     public class CollectionItemsController : MainController
     {
         [HttpGet]
-        public async Task<ActionResult<PagedList<CollectionItem>>> Get(
+        public async Task<ActionResult<PagedList<CollectionItem>>> GetAll(
             [FromServices] ICollectionItemRepository collectionItemRepository,
             [FromQuery] GetAllPagedCollectionItemQueryRequest query)
         {

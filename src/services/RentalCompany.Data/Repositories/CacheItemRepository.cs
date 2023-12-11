@@ -31,11 +31,6 @@ namespace RentalCompany.Data.Repositories
             _decorated.Delete(item);
         }
 
-        public void Dispose()
-        {
-            _decorated.Dispose();
-        }
-
         public async Task<PagedList<CollectionItem>?> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
             string key = $"{CacheKeyHelper.CollectionItemKey}-globalFilter-{globalFilter}-sortOrder{sortOrder}-sortField{sortField}status{status}type{type}pageNumber{pageNumber}pageSize{pageSize}";
@@ -62,6 +57,20 @@ namespace RentalCompany.Data.Repositories
         public void Update(CollectionItem item)
         {
             _decorated.Update(item);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _memoryCache?.Dispose();
+            }
         }
     }
 }

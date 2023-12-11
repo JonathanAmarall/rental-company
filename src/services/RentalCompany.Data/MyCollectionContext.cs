@@ -41,7 +41,7 @@ namespace RentalCompany.Data
 
             await PublishDomainEvents(cancellationToken);
 
-            return await SaveChangesAsync() > 0;
+            return await SaveChangesAsync(cancellationToken) > 0;
         }
 
         private void UpdateAuditableEntities(DateTime utcNow)

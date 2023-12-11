@@ -56,7 +56,7 @@ internal sealed class IntegrationEventConsumerBackgroundService : IHostedService
         }
         catch (Exception e)
         {
-            logger.LogCritical($"ERROR: Failed to process the integration events: {e.Message}", e.Message);
+            logger.LogCritical("ERROR: Failed to process the integration events: {Message}", e.Message);
         }
     }
 
@@ -85,7 +85,7 @@ internal sealed class IntegrationEventConsumerBackgroundService : IHostedService
     /// <param name="sender">The sender.</param>
     /// <param name="eventArgs">The event arguments.</param>
     /// <returns>The completed task.</returns>
-    private void OnIntegrationEventReceived(object sender, BasicDeliverEventArgs eventArgs)
+    private void OnIntegrationEventReceived(object? sender, BasicDeliverEventArgs eventArgs)
     {
         string body = Encoding.UTF8.GetString(eventArgs.Body.Span);
 
@@ -98,7 +98,7 @@ internal sealed class IntegrationEventConsumerBackgroundService : IHostedService
 
         var integrationEventConsumer = scope.ServiceProvider.GetRequiredService<IIntegrationEventConsumer>();
 
-        integrationEventConsumer.Consume(integrationEvent);
+        integrationEventConsumer.Consume(integrationEvent!);
 
         _channel.BasicAck(eventArgs.DeliveryTag, false);
     }

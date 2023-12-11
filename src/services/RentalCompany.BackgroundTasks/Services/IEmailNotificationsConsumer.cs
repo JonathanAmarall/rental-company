@@ -29,7 +29,7 @@ namespace RentalCompany.BackgroundTasks.Services
         {
             var rentItensExpireds = await _rentItemRepository.GetExpiredRents(batchSize);
 
-            foreach (var expiredItem in rentItensExpireds)
+            foreach (var expiredItem in rentItensExpireds!)
             {
                 //
 

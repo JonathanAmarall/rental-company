@@ -20,7 +20,7 @@ namespace RentalCompany.Core.Messages.Commands
 
         public static ICommandResult Failure(string message, ValidationResult? validationResult)
         {
-            return new CommandResult<T>(false, message, default, validationResult);
+            return new CommandResult<T>(false, message, default!, validationResult);
         }
 
         public static ICommandResult Success(string message, T data)
