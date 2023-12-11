@@ -46,7 +46,6 @@ namespace RentalCompany.Api.Controllers
             return CustomReponse(result.Data);
         }
 
-        // TODO: Mover para Command/Handler
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id, [FromServices] ILocationRepository locationRepository)
         {

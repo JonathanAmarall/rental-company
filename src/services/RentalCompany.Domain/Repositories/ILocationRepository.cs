@@ -10,7 +10,7 @@ namespace RentalCompany.Domain.Repositories
         void Update(Location location);
         Task<List<Location>> GetRootsAsync();
         Task<List<Location>?> GetLocationsChildrenAsync(Guid id);
-        Task<Location?> GetByIdAsync(Guid locationId);
+        Task<Location?> GetByIdAsync(Guid id);
         Task<string> GetFullLocationTag(Guid id);
     }
 }

@@ -7,7 +7,7 @@
         /// <summary>
         /// Gets or sets the host name.
         /// </summary>
-        public string HostName { get; set; }
+        public string HostName { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the port.
@@ -17,17 +17,16 @@
         /// <summary>
         /// Gets or sets the user name.
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the queue name.
         /// </summary>
-        public string QueueName { get; set; }
-
+        public string QueueName { get; set; } = string.Empty;
     }
 }

@@ -39,8 +39,6 @@ namespace RentalCompany.Application.CollectionItem.Events
 
         public IEnumerable<string> GetPersistedKeys()
         {
-            var persistedKeys = new List<string>();
-
             var fieldInfo = typeof(MemoryCache).GetField("_coherentState", BindingFlags.Instance | BindingFlags.NonPublic);
             var propertyInfo = fieldInfo!.FieldType.GetProperty("EntriesCollection", BindingFlags.Instance | BindingFlags.NonPublic);
             var value = fieldInfo.GetValue(_memoryCache);
@@ -54,12 +52,10 @@ namespace RentalCompany.Application.CollectionItem.Events
                     ICacheEntry cacheItemValue = item.GetType().GetProperty("Value").GetValue(item, null);
                     if (cacheItemValue is not null)
                     {
-                        persistedKeys.Add(cacheItemValue.Key.ToString()!);
+                        yield return cacheItemValue.Key.ToString()!;
                     }
                 }
             }
-
-            return persistedKeys;
         }
     }
 }

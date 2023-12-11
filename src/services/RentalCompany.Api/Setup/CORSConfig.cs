@@ -1,7 +1,7 @@
 ﻿
 namespace RentalCompany.Api.Setup
 {
-    public static class CORSConfig
+    public static class CorsConfig
     {
         public static void AddCorsConfiguration(this IServiceCollection services)
         {

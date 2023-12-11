@@ -23,7 +23,7 @@ namespace RentalCompany.Core.Helpers
         }
         };
 
-        public static JsonSerializerSettings GetJsonSerializerSettings(NamingStrategy? namingStrategy = null, string dateFormatString = null)
+        public static JsonSerializerSettings GetJsonSerializerSettings(NamingStrategy? namingStrategy = null, string? dateFormatString = null)
         {
             if (string.IsNullOrWhiteSpace(dateFormatString))
             {
@@ -38,11 +38,11 @@ namespace RentalCompany.Core.Helpers
                 {
                     NamingStrategy = namingStrategy
                 },
-                Converters = { (JsonConverter)new StringEnumConverter() }
+                Converters = { new StringEnumConverter() }
             };
         }
 
-        public static JsonSerializerSettings GetCustomJsonSerializerSettings(NamingStrategy namingStrategy, IHttpContextAccessor httpContextAccessor, string dateFormatString = null)
+        public static JsonSerializerSettings GetCustomJsonSerializerSettings(NamingStrategy namingStrategy, IHttpContextAccessor httpContextAccessor, string? dateFormatString = null)
         {
             if (string.IsNullOrWhiteSpace(dateFormatString))
             {
@@ -57,7 +57,7 @@ namespace RentalCompany.Core.Helpers
                 {
                     NamingStrategy = new CustomControllerJsonFormatterNamingStrategy(namingStrategy, httpContextAccessor)
                 },
-                Converters = { (JsonConverter)new StringEnumConverter() }
+                Converters = { new StringEnumConverter() }
             };
         }
 
@@ -78,16 +78,19 @@ namespace RentalCompany.Core.Helpers
 
         public static T ToObject<T>(this string value)
         {
+            ArgumentException.ThrowIfNullOrEmpty(value);
             return JsonConvert.DeserializeObject<T>(value);
         }
 
         public static T ToObject<T>(this string value, JsonSerializerSettings jsonSerializerSettings)
         {
+            ArgumentException.ThrowIfNullOrEmpty(value);
             return JsonConvert.DeserializeObject<T>(value, jsonSerializerSettings);
         }
 
         public static T ToObject<T>(this string value, Type type)
         {
+            ArgumentException.ThrowIfNullOrEmpty(value);
             return (T)JsonConvert.DeserializeObject(value, type);
         }
 
@@ -106,7 +109,7 @@ namespace RentalCompany.Core.Helpers
             }
             catch (Exception)
             {
-                serializedObject = default(T);
+                serializedObject = default;
                 return false;
             }
         }
